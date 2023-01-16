@@ -1,0 +1,26 @@
+syntax = "proto3";
+package riptide.msgs;
+
+/// \interface JointMsg
+/// \brief Riptide joint message
+
+message JointMsg
+{
+  /// \brief Name
+  string name = 1;
+
+  /// \brief Position
+  double position = 2;
+
+  /// \brief Velocity
+  double velocity = 3;
+}
+
+/// \interface MultiJointMsg
+/// \brief Riptide multi joint message
+
+message MultiJointMsg
+{
+  /// \brief JointStates
+  repeated JointMsg joint = 1;
+}

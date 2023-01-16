@@ -1,0 +1,23 @@
+syntax = "proto3";
+package riptide.msgs;
+
+import "vector3d.proto";
+import "quaternion.proto";
+
+/// \interface Vector3d
+/// \brief Riptide spawn message
+
+message SpawnMsg
+{
+  /// \brief Name of the riptide
+  string name = 1;
+
+  /// \brief Riptide Position
+  Vector3 position = 2;
+
+  /// \brief Riptide Orientation
+  Quaternion orientation = 3;
+
+  /// \brief Riptide urdf description
+  string robot_description = 4;
+}

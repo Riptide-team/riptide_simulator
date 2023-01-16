@@ -1,0 +1,12 @@
+syntax = "proto3";
+package riptide.msgs;
+
+/// \interface Vector3d
+/// \brief A message for a vector3 of double
+
+message Vector3
+{
+  double x = 1;
+  double y = 2;
+  double z = 3;
+}

@@ -1,0 +1,20 @@
+syntax = "proto3";
+package riptide.msgs;
+
+/// \interface ControlMsg
+/// \brief Riptide control message
+
+message ControlMsg
+{
+  /// \brief Thrust command
+  double thrust = 1;
+
+  /// \brief Direction fin command
+  double d = 2;
+
+  /// \brief Port fin command
+  double p = 3;
+
+  /// \brief Starboard fin command
+  double s = 4;
+}
