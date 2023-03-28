@@ -25,7 +25,7 @@ namespace riptide_simulator {
             rclcpp::TimerBase::SharedPtr update_timer_;
 
             // Time step
-            std::chrono::duration<float> dt_ = std::chrono::milliseconds(10);
+            std::chrono::duration<float> dt_ = std::chrono::milliseconds(5);
 
             // Create a transport node.
             ignition::transport::Node node;

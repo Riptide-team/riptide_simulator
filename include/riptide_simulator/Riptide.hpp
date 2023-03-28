@@ -262,8 +262,8 @@ namespace riptide_simulator {
         Eigen::Vector3d u_r = {d_fin_->get_position(), p_fin_->get_position(), s_fin_->get_position()};
         wr_ = v_(0) * param::I * param::B * u_r;
         a_ = param::thrust * (Eigen::Vector3d() << thruster_->get_velocity() * std::abs(thruster_->get_velocity()), 0, 0).finished() - param::f * v_.cwiseProduct(v_.cwiseAbs());
-        p_ += dt * R_ * v_;
         v_ += dt * a_;
+        p_ += dt * R_ * v_;
         R_ = R_ * (Skew(dt * wr_)).exp();
 
         // Publishing dynamic tf

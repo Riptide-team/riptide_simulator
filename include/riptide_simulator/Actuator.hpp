@@ -44,8 +44,9 @@ namespace riptide_simulator {
     struct Fin : Actuator<Fin> {
         using Ptr = std::shared_ptr<Actuator<Fin>>;
 
+        // Control in angle, u \in [-pi/4; pi/4] rad
         void update_impl(const double dt, double u) {
-            velocity_ = M_PI / 0.36 * std::atan(u - position_);
+            velocity_ = 17.45329252 * std::atan(u - position_);
             position_ = std::clamp(position_ + dt * velocity_, - M_PI/4, M_PI/4);
         }
     };
@@ -53,8 +54,9 @@ namespace riptide_simulator {
     struct Thruster : Actuator<Thruster> {
         using Ptr = std::shared_ptr<Actuator<Thruster>>;
 
+        // Control in angular velocity, u \in [-100*pi; 100*pi] rad/s
         void update_impl(const double dt, double u) {
-            velocity_ = std::clamp(u, -120 * M_PI, 120 * M_PI);
+            velocity_ = std::clamp(u, -100 * M_PI, 100 * M_PI);
             position_ += dt * velocity_;
         }
     };

@@ -10,8 +10,8 @@ namespace riptide_simulator {
             1, std::cos(2*M_PI/3), std::cos(2*M_PI/3)).finished();
 
     // Thrust parameter
-    const double RiptideParameters::thrust = 50 / std::pow(120 * M_PI, 2);
+    const double RiptideParameters::thrust = 50. / std::pow(100 * M_PI, 2);
 
     // Fluid friction coefficient
-    const double RiptideParameters::f = 5;
+    const double RiptideParameters::f = 5.;
 } // riptide_simulator
