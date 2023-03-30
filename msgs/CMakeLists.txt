@@ -4,6 +4,7 @@ PROTOBUF_GENERATE_CPP(PROTO_SRC PROTO_HEADER
   multijointmsg.proto
   vector3d.proto
   quaternion.proto
+  pressuremsg.proto
 )
 
 # Variables needed to propagate through modules

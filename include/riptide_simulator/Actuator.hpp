@@ -51,6 +51,7 @@ namespace riptide_simulator {
         }
     };
 
+    // Maybe add force input control mode
     struct Thruster : Actuator<Thruster> {
         using Ptr = std::shared_ptr<Actuator<Thruster>>;
 

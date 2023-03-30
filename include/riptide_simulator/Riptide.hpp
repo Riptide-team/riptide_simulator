@@ -20,6 +20,7 @@
 
 #include "controlmsg.pb.h"
 #include "multijointmsg.pb.h"
+#include "pressuremsg.pb.h"
 
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_ros/static_transform_broadcaster.h>
@@ -81,8 +82,23 @@ namespace riptide_simulator {
             // Control vector
             Eigen::Vector4d u_;
 
+            // Fluid density
+            double rho_ = 1000.;
+
+            // Fluid temperature
+            double temperature_ = 15.;
+
+            // Gravity
+            double g_ = 9.81;
+
             // Echosounder measured distance
             double d_;
+
+            // Battery tension
+            double voltage_ = 16.;
+
+            // Current currently consumed
+            double current_ = .5;
 
             // Mutex
             std::mutex mutex_;
@@ -102,7 +118,7 @@ namespace riptide_simulator {
             // EchoSounder service callback
             bool echosounder_cb(ignition::msgs::Float &_rep);
 
-            // Imu service name
+            // Joint state name
             std::string joint_state_service = "joint_state";
 
             // Joint state service callback
@@ -113,6 +129,18 @@ namespace riptide_simulator {
 
             // Imu service callback
             void control_cb(const riptide::msgs::ControlMsg &_req);
+            
+            // Pressure name
+            std::string pressure_service = "pressure";
+
+            // Pressure callback
+            bool pressure_cb(riptide::msgs::PressureMsg &_rep);
+
+            // Battery name
+            std::string battery_service = "battery";
+
+            // Battery service callback
+            bool battery_cb(ignition::msgs::BatteryState &_rep);
 
             // Ignition transport initializer
             void init_ignition();
@@ -244,6 +272,16 @@ namespace riptide_simulator {
             std::cout << "Error advertising service [" << joint_state_service << "]\n";
         }
 
+        // Advertise pressure service call.
+        if (!node->Advertise(pressure_service, &Riptide::pressure_cb, this)) {
+            std::cout << "Error advertising service [" << pressure_service << "]\n";
+        }
+
+        // Advertise battery service call.
+        if (!node->Advertise(battery_service, &Riptide::battery_cb, this)) {
+            std::cout << "Error advertising service [" << battery_service << "]\n";
+        }
+
         RCLCPP_INFO(this->get_logger(), "Sucessfully initialized ignition!");
     }
 
@@ -300,6 +338,30 @@ namespace riptide_simulator {
         quaternion_msg.set_z(q.z());
         quaternion_msg.set_w(q.w());
         _rep.mutable_orientation()->CopyFrom(quaternion_msg);
+
+        return true;
+    }
+
+    template <typename param>
+    bool Riptide<param>::pressure_cb(riptide::msgs::PressureMsg &_rep) {
+        // Lock guard
+        std::lock_guard<std::mutex> lock_(mutex_);
+
+        _rep.set_pressure(rho_ * g_ * p_(2));
+        _rep.set_temperature(temperature_);
+        _rep.set_depth(p_(2));
+        _rep.set_altitude(std::numeric_limits<double>::quiet_NaN());
+
+        return true;
+    }
+
+    template <typename param>
+    bool Riptide<param>::battery_cb(ignition::msgs::BatteryState &_rep) {
+        // Lock guard
+        std::lock_guard<std::mutex> lock_(mutex_);
+
+        _rep.set_voltage(voltage_);
+        _rep.set_current(current_);
 
         return true;
     }

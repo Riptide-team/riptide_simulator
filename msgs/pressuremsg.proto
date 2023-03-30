@@ -1,0 +1,20 @@
+syntax = "proto3";
+package riptide.msgs;
+
+/// \interface PressureMsg
+/// \brief Riptide pressure message
+
+message PressureMsg
+{
+  /// \brief Pressure
+  double pressure = 1;
+
+  /// \brief Temperature
+  double temperature = 2;
+
+  /// \brief Depth
+  double depth = 3;
+
+  /// \brief Altitude
+  double altitude = 4;
+}
