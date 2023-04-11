@@ -91,6 +91,9 @@ namespace riptide_simulator {
             // Gravity
             double g_ = 9.81;
 
+            // Atmospheric pressure in Pa
+            double P0_ = 101300.0;
+
             // Echosounder measured distance
             double d_;
 
@@ -347,9 +350,9 @@ namespace riptide_simulator {
         // Lock guard
         std::lock_guard<std::mutex> lock_(mutex_);
 
-        _rep.set_pressure(rho_ * g_ * p_(2));
+        _rep.set_pressure(-rho_ * g_ * p_(2) + P0_);
         _rep.set_temperature(temperature_);
-        _rep.set_depth(p_(2));
+        _rep.set_depth(-p_(2));
         _rep.set_altitude(std::numeric_limits<double>::quiet_NaN());
 
         return true;
@@ -440,11 +443,11 @@ namespace riptide_simulator {
         if (!std::isnan(_req.thrust()))
             thruster_->set_command(_req.thrust());
         if (!std::isnan(_req.d()))
-            d_fin_->set_command(_req.d());
+            d_fin_->set_command(-_req.d()); // To stick to the riptide to be verified / unified
         if (!std::isnan(_req.p()))
-            p_fin_->set_command(_req.p());
+            p_fin_->set_command(-_req.p()); // To stick to the riptide to be verified / unified
         if (!std::isnan(_req.s()))
-            s_fin_->set_command(_req.s());
+            s_fin_->set_command(-_req.s()); // To stick to the riptide to be verified / unified
     }
 
     template <typename param>
