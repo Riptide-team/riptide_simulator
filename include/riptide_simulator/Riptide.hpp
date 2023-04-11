@@ -457,10 +457,9 @@ namespace riptide_simulator {
 
         // Filling the MultiJoint msg
         riptide::msgs::JointMsg* thruster_joint = _rep.add_joint();
-        double r = 1. / 120.;
         thruster_joint->set_name("thruster");
-        thruster_joint->set_position(r * thruster_->get_position());
-        thruster_joint->set_velocity(r * thruster_->get_velocity());
+        thruster_joint->set_position(thruster_->get_position());
+        thruster_joint->set_velocity(thruster_->get_velocity());
 
         riptide::msgs::JointMsg* d_joint = _rep.add_joint();
         d_joint->set_name("d");
