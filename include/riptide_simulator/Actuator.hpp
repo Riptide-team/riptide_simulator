@@ -55,6 +55,17 @@ namespace riptide_simulator {
     struct Thruster : Actuator<Thruster> {
         using Ptr = std::shared_ptr<Actuator<Thruster>>;
 
+        // Control in angular velocity, u \in [-1; 1] in arbitrary unit
+        void update_impl(const double dt, double u) {
+            velocity_ = 100. * M_PI * std::clamp(u, -1., 1.);
+            position_ += dt * velocity_;
+        }
+    };
+
+    // Maybe add force input control mode
+    struct ThrusterRad : Actuator<Thruster> {
+        using Ptr = std::shared_ptr<Actuator<ThrusterRad>>;
+
         // Control in angular velocity, u \in [-100*pi; 100*pi] rad/s
         void update_impl(const double dt, double u) {
             velocity_ = std::clamp(u, -100 * M_PI, 100 * M_PI);
