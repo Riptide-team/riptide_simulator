@@ -32,8 +32,8 @@ namespace riptide_simulator {
                     RCLCPP_FATAL(this->get_logger(), "The `robot_description` should be non-empty");
                 }
 
-                std::copy(position.begin(), position.end(), std::ostream_iterator<double>(std::cout, " "));
-                std::copy(orientation.begin(), orientation.end(), std::ostream_iterator<double>(std::cout, " "));
+                // std::copy(position.begin(), position.end(), std::ostream_iterator<double>(std::cout, " "));
+                // std::copy(orientation.begin(), orientation.end(), std::ostream_iterator<double>(std::cout, " "));
 
                 // Create a transport node.
                 ignition::transport::Node node;

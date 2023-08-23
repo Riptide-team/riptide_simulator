@@ -335,7 +335,11 @@ namespace riptide_simulator {
 
         // Quaternion
         ignition::msgs::Quaternion quaternion_msg;
-        Eigen::Quaterniond q(R_);
+
+        // Expressing orientation in imu sensor frame
+        Eigen::Matrix3d R_imu(Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX()));
+        Eigen::Quaterniond q(R_imu * R_);
+
         quaternion_msg.set_x(q.x());
         quaternion_msg.set_y(q.y());
         quaternion_msg.set_z(q.z());
